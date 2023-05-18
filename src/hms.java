@@ -2,23 +2,65 @@ import java.util.Scanner;
 
 public class hms {
     private static queue<patients> patientQueue;
+    private static queue<doctors> doctorQueue;
     public hms(int max) {
-        patientQueue = new queue<>(max);
+
+        patientQueue = new queue<patients>(max);
+        doctorQueue = new queue<doctors>(max);
     }
     public static void addpatients(int id, String name, int age, String disease, String doctor, int appointmentNo){
         patients patient = new patients(id, name,age,disease,doctor, appointmentNo);
         patientQueue.enqueue(patient);
-        System.out.println("Patient added: " + patient.getName());
+        System.out.println(" added: " + patient.getName());
     }
     public static void deletePatient() {
         patients patient = patientQueue.dequeue();
         if (patient != null) {
-            System.out.println("Deleted patient: " + patient);
+
+            System.out.println("1st record deleted: " + patient.getName());
         } else {
-            System.out.println("No patients in the queue.");
+            System.out.println("No patient records available");
+
         }
     }
 
+    public void viewPatients() {
+        if (patientQueue.isEmpty()) {
+            System.out.println("No patient records available");
+            return;
+        }
+        System.out.println("Patients List");
+        for (int i = 0; i < patientQueue.size(); i++) {
+            patients patient = patientQueue.get(i);
+            System.out.println("Patient Name : "+ patient.getName());
+        }
+    }
+    public static void addDoctors(int id, String name, int age, String special, int appointmentNo){
+        doctors doctor = new doctors(id, name,age,special, appointmentNo);
+        doctorQueue.enqueue(doctor);
+        System.out.println("Added: " + doctor.getName());
+    }
+    public static void deleteDoctors() {
+        doctors doctor = doctorQueue.dequeue();
+        if (doctor != null) {
+
+            System.out.println("1st record deleted: " + doctor.getName());
+        } else {
+            System.out.println("No records available");
+
+        }
+    }
+    public void viewDoctors() {
+        if (doctorQueue.isEmpty()) {
+            System.out.println("No patient records available");
+            return;
+        }
+        System.out.println("Doctors List");
+        for (int i = 0; i < doctorQueue.size(); i++) {
+            doctors doctor = doctorQueue.get(i);
+            System.out.println("Doctor Name : "+ doctor.getName());
+        }
+    }
     public static void mainOptions(){
         System.out.println("*******Welcome to Arogya Hospital Management System");
         System.out.println("Press 1 for Patients");
@@ -28,12 +70,18 @@ public class hms {
 
 
     }
+
     public static void main(String[] args) {
 
-        hms system = new hms(10);
+
+        hms system = new hms(1000);
+
+        system.addpatients(1, "Micky", 21, "nil", "Dr.Raj", 85);
+        system.addpatients(2, "Author", 74, "Back Pain", "Dr.Jacky",91 );
+        system.addpatients(2, "Joe", 74, "Back Pain", "Dr.Jacky",91 );
+
         mainOptions();
         while (true) {
-
 
             Scanner scan = new Scanner(System.in);
             int key = scan.nextInt();
@@ -47,7 +95,18 @@ public class hms {
                 System.out.println("Doctors Dashboard");
                 System.out.println("Press 1 - View Patients Profile");
                 System.out.println("Press 2 - View Appointments Details");
-                System.out.println("Press 3 - View Prescription Details");
+
+                int keyD = scan.nextInt();
+                if (keyD==1){
+                    system.viewPatients();
+
+                }else if (keyD==2){
+                    //system.viewAppoinments();
+
+                }else {
+                    System.out.println("Invalid Details");
+                    main(null);
+                }
 
             } else if (key == 3) {
                 System.out.println("Admin Dashboard");
@@ -60,8 +119,8 @@ public class hms {
                 int keyA = scan.nextInt();
                     if (keyA==1){
                         System.out.println("1-Add Patient");
-                        System.out.println("1-Delete Patient");
-                        System.out.println("1-View Patient");
+                        System.out.println("2-Delete Patient");
+                        System.out.println("3-View Patient");
                         int keyP = scan.nextInt();
                         if (keyP==1){
                             System.out.println("Enter Patient ID:");
@@ -79,15 +138,41 @@ public class hms {
                             system.addpatients(id, name, age, disease, doctor, appointmentNo);
 
                         }else if (keyP==2){
-                            hms.deletePatient();
+                            system.deletePatient();
+                            system.viewPatients();
 
                         }else if (keyP==3){
-
+                           system.viewPatients();
                         }
 
-
-
                     }else if (keyA==2){
+
+                        System.out.println("1-Add Doctor");
+                        System.out.println("2-Delete Doctor");
+                        System.out.println("3-View Doctor");
+                        int keyD = scan.nextInt();
+                        if (keyD==1){
+                            System.out.println("Enter Doctor ID:");
+                            int id = scan.nextInt();
+                            System.out.println("Enter Doctor Name:");
+                            String name = scan.next();
+                            System.out.println("Enter Doctor Age:");
+                            int age = scan.nextInt();
+                            System.out.println("Enter Doctor's Specialization:");
+                            String special = scan.next();
+
+                            System.out.println("Enter Doctor Appointment Number:");
+                            int appointmentNo = scan.nextInt();
+                            system.addDoctors(id, name,age,special, appointmentNo);
+
+                        }else if (keyD==2){
+                            system.deleteDoctors();
+                            system.viewDoctors();
+
+                        }else if (keyD==3){
+                            system.viewDoctors();
+                        }
+
 
                     }else if (keyA==3){
 

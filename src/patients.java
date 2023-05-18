@@ -1,8 +1,8 @@
-public class patients {
+public class patients extends person {
 
-    private int id;
-    private String name;
-    private int age;
+//    private int id;
+//    private String name;
+//    private int age;
     private String disease;
     private String doctor;
 
